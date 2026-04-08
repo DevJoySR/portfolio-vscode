@@ -1,46 +1,36 @@
-'use client';
+"use client";
 
-import ExplorerSection from "./ExplorerSection";
-import ExplorerItem from "./ExplorerItem";
-import type { ExplorerNode } from "./type";
+import { useAppSelector } from "@/lib/redux/hooks";
+import { ExplorerSection } from "./ExplorerSection";
 
-export default function Explorer() {
-  const tree: ExplorerNode[] = [
-    {
-      name: "src",
-      type: "folder",
-      children: [
-        {
-          name: "app",
-          type: "folder",
-          children: [
-            { name: "layout.tsx", type: "file" },
-            { name: "page.tsx", type: "file" },
-          ],
-        },
-        {
-          name: "components",
-          type: "folder",
-          children: [
-            { name: "Header.tsx", type: "file" },
-            { name: "Footer.tsx", type: "file" },
-          ],
-        },
-      ],
-    },
-    {
-      name: "package.json",
-      type: "file",
-    },
-  ];
+export function Explorer() {
+  const { tree } = useAppSelector((s) => s.explorer);
 
   return (
-    <div className="text-xs text-gray-300 select-none">
-      <ExplorerSection title="Explorer">
-        {tree.map((node: ExplorerNode) => (
-          <ExplorerItem key={node.name} node={node} depth={0} />
+    <div className="vsc-explorer" role="tree" aria-label="Fichiers du projet">
+      {/* Header racine avec nom du projet */}
+      <div className="vsc-explorer__root-header">
+        <span className="vsc-explorer__root-label">Portfolio-VSCode</span>
+      </div>
+
+      {/* Arbre de fichiers */}
+      <div className="vsc-explorer__tree">
+        {tree.map((node) => (
+          <ExplorerSection key={node.id} node={node} depth={0} />
         ))}
-      </ExplorerSection>
+      </div>
+
+      {/* Outline + Timeline en bas */}
+      <div className="vsc-explorer__footer">
+        <div className="vsc-explorer__footer-section">
+          <span className="vsc-explorer__footer-arrow">›</span>
+          <span>Outline</span>
+        </div>
+        <div className="vsc-explorer__footer-section">
+          <span className="vsc-explorer__footer-arrow">›</span>
+          <span>Timeline</span>
+        </div>
+      </div>
     </div>
   );
 }

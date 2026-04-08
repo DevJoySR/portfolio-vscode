@@ -1,7 +1,5 @@
-'use client';
+import { VSCodeLayout } from "@/components/vscode/VSCodeLayout";
 
-import VSCodeLayout from "@/components/vscode/VSCodeLayout";
-
-export default function Home() {
+export default function HomePage() {
   return <VSCodeLayout />;
 }

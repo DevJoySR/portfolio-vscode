@@ -1,8 +1,11 @@
-"use client";
-
-import { Provider } from "react-redux";
-import { store } from "@/lib/redux/store";
+import type { Metadata } from "next";
 import "./globals.css";
+import { ReduxProvider } from "@/lib/redux/ReduxProvider";
+
+export const metadata: Metadata = {
+  title: "Joy — Portfolio",
+  description: "Portfolio développeur web — Next.js · React · TypeScript",
+};
 
 export default function RootLayout({
   children,
@@ -10,9 +13,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="fr">
       <body>
-        <Provider store={store}>{children}</Provider>
+        <ReduxProvider>{children}</ReduxProvider>
       </body>
     </html>
   );
