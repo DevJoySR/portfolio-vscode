@@ -1,54 +1,44 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
-// ─── Données personnelles ─────────────────────────────────────────────────────
 const PROFILE = {
   name: "Adrien Sudja",
-  title: "Développeur Web Full-Stack",
+  title: "Développeur",
+  titleAccent: "full-stack & créatif",
   location: "Rennes / Vannes",
   age: 21,
   github: "https://github.com/DevJoySR",
   linkedin: "https://www.linkedin.com/in/adrien-sudja-247824329/",
-  email: "adrien.sudja@email.com", // ← remplace par ton vrai email
-  bio: "Passionné par le développement web depuis plusieurs années, je construis des applications modernes avec React, Next.js et TypeScript. Actuellement en BTS SIO option SLAM, je cherche à mettre mes compétences au service de projets ambitieux.",
-  formation: "BTS SIO — Option SLAM",
-  school: "Chanteloup, Bretagne",
-  disponibility: "Disponible dès septembre 2025",
+  email: "adriensudja.pro@outlook.fr",
+  bio: "Étudiant en BTS SIO option SLAM, futur bachelier Epitech à Rennes. Je conçois des applications web robustes avec une attention particulière à l'expérience utilisateur.",
 };
 
 const COUNTERS = [
-  { label: "Années de pratique", value: 3, suffix: "+" },
-  { label: "Année d'études", value: 2, suffix: "ème" },
-  { label: "Projets réalisés", value: 8, suffix: "+" },
-  { label: "Technos maîtrisées", value: 15, suffix: "+" },
+  { label: "Ans de pratique", value: 2, suffix: "+" },
+  { label: "Projets réalisés", value: 5, suffix: "+" },
+  { label: "Technologies", value: 20, suffix: "+" },
 ];
 
-const TABS = ["Bio", "Formation", "Hobbies"] as const;
+const TABS = ["Bio", "Hobbies"] as const;
 type Tab = (typeof TABS)[number];
 
-// ─── Hook compteur animé ──────────────────────────────────────────────────────
-function useCountUp(target: number, duration = 1500, start = false) {
+function useCountUp(target: number, duration = 1400, start = false) {
   const [count, setCount] = useState(0);
-
   useEffect(() => {
     if (!start) return;
-    let startTime: number | null = null;
-    const step = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      // Easing out cubic
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(eased * target));
-      if (progress < 1) requestAnimationFrame(step);
+    let t0: number | null = null;
+    const step = (ts: number) => {
+      if (!t0) t0 = ts;
+      const p = Math.min((ts - t0) / duration, 1);
+      setCount(Math.floor((1 - Math.pow(1 - p, 3)) * target));
+      if (p < 1) requestAnimationFrame(step);
     };
     requestAnimationFrame(step);
   }, [target, duration, start]);
-
   return count;
 }
 
-// ─── Composant compteur individuel ───────────────────────────────────────────
 function Counter({
   value,
   suffix,
@@ -60,128 +50,60 @@ function Counter({
   label: string;
   animate: boolean;
 }) {
-  const count = useCountUp(value, 1200, animate);
+  const count = useCountUp(value, 1400, animate);
   return (
     <div className="about-counter">
-      <div className="about-counter__value">
+      <span className="about-counter__value">
         {count}
         <span className="about-counter__suffix">{suffix}</span>
-      </div>
-      <div className="about-counter__label">{label}</div>
+      </span>
+      <span className="about-counter__label">{label}</span>
     </div>
   );
 }
 
-// ─── Onglet Bio ───────────────────────────────────────────────────────────────
 function BioTab() {
   return (
-    <div className="about-tab-content">
-      <div className="about-bio">
-        {/* Ligne de code stylisée — cohérence VSCode */}
-        <div className="about-bio__code-block">
-          <span className="code-keyword">const</span>{" "}
-          <span className="code-var">developer</span>{" "}
-          <span className="code-op">=</span>{" "}
-          <span className="code-bracket">{"{"}</span>
+    <div className="pf-tab-content">
+      <p className="pf-tab-content__text">{PROFILE.bio}</p>
+      <div className="pf-info-grid">
+        <div className="pf-info-item">
+          <span className="pf-info-item__label">Localisation</span>
+          <span className="pf-info-item__value">{PROFILE.location}</span>
         </div>
-        <div className="about-bio__code-block about-bio__code-block--indent">
-          <span className="code-prop">name</span>
-          <span className="code-op">:</span>{" "}
-          <span className="code-string">&quot;{PROFILE.name}&quot;</span>
-          <span className="code-op">,</span>
+        <div className="pf-info-item">
+          <span className="pf-info-item__label">Âge</span>
+          <span className="pf-info-item__value">{PROFILE.age} ans</span>
         </div>
-        <div className="about-bio__code-block about-bio__code-block--indent">
-          <span className="code-prop">age</span>
-          <span className="code-op">:</span>{" "}
-          <span className="code-number">{PROFILE.age}</span>
-          <span className="code-op">,</span>
+        <div className="pf-info-item">
+          <span className="pf-info-item__label">Email</span>
+          <a
+            href={`mailto:${PROFILE.email}`}
+            className="pf-info-item__value pf-info-item__value--link"
+          >
+            {PROFILE.email}
+          </a>
         </div>
-        <div className="about-bio__code-block about-bio__code-block--indent">
-          <span className="code-prop">location</span>
-          <span className="code-op">:</span>{" "}
-          <span className="code-string">&quot;{PROFILE.location}&quot;</span>
-          <span className="code-op">,</span>
-        </div>
-        <div className="about-bio__code-block about-bio__code-block--indent">
-          <span className="code-prop">role</span>
-          <span className="code-op">:</span>{" "}
-          <span className="code-string">&quot;{PROFILE.title}&quot;</span>
-          <span className="code-op">,</span>
-        </div>
-        <div className="about-bio__code-block about-bio__code-block--indent">
-          <span className="code-prop">status</span>
-          <span className="code-op">:</span>{" "}
-          <span className="code-string">
-            &quot;{PROFILE.disponibility}&quot;
-          </span>
-          <span className="code-op">,</span>
-        </div>
-        <div className="about-bio__code-block">
-          <span className="code-bracket">{"}"}</span>
-        </div>
-
-        <p className="about-bio__text">{PROFILE.bio}</p>
       </div>
     </div>
   );
 }
 
-// ─── Onglet Formation ─────────────────────────────────────────────────────────
-function FormationTab() {
-  const diplomes = [
-    {
-      year: "2024 – 2026",
-      title: "BTS SIO — Option SLAM",
-      school: "Lycée, Bretagne",
-      status: "En cours",
-    },
-    { year: "2024", title: "Baccalauréat", school: "Lycée", status: "Obtenu" },
-    // Ajoute tes vrais diplômes ici
-  ];
-
-  return (
-    <div className="about-tab-content">
-      <div className="about-timeline">
-        {diplomes.map((d, i) => (
-          <div key={i} className="about-timeline__item">
-            <div className="about-timeline__dot" />
-            <div className="about-timeline__body">
-              <div className="about-timeline__header">
-                <span className="about-timeline__title">{d.title}</span>
-                <span
-                  className={`about-timeline__badge ${d.status === "En cours" ? "about-timeline__badge--active" : ""}`}
-                >
-                  {d.status}
-                </span>
-              </div>
-              <div className="about-timeline__school">{d.school}</div>
-              <div className="about-timeline__year">{d.year}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// ─── Onglet Hobbies ───────────────────────────────────────────────────────────
 function HobbiesTab() {
   const hobbies = [
-    { icon: "🎮", label: "Gaming", detail: "League of Legends, Minecraft" },
+    { icon: "🎮", label: "Gaming", detail: "League of Legends, Enshrouded" },
     { icon: "💻", label: "Dev perso", detail: "Side projects, open source" },
     { icon: "🎵", label: "Musique", detail: "Écoute & découverte" },
-    // Ajoute / modifie tes hobbies réels
   ];
-
   return (
-    <div className="about-tab-content">
-      <div className="about-hobbies">
+    <div className="pf-tab-content">
+      <div className="pf-hobbies">
         {hobbies.map((h, i) => (
-          <div key={i} className="about-hobby">
-            <span className="about-hobby__icon">{h.icon}</span>
+          <div key={i} className="pf-hobby">
+            <span className="pf-hobby__icon">{h.icon}</span>
             <div>
-              <div className="about-hobby__label">{h.label}</div>
-              <div className="about-hobby__detail">{h.detail}</div>
+              <div className="pf-hobby__label">{h.label}</div>
+              <div className="pf-hobby__detail">{h.detail}</div>
             </div>
           </div>
         ))}
@@ -190,65 +112,61 @@ function HobbiesTab() {
   );
 }
 
-// ─── Composant principal ──────────────────────────────────────────────────────
-export function AboutView() {
+export function AboutView({
+  onNavigate,
+}: { onNavigate?: (view: string) => void } = {}) {
   const [activeTab, setActiveTab] = useState<Tab>("Bio");
   const [animateCounters, setAnimateCounters] = useState(false);
-  const heroRef = useRef<HTMLDivElement>(null);
 
-  // Déclenche les compteurs quand la vue devient visible
   useEffect(() => {
-    const timer = setTimeout(() => setAnimateCounters(true), 300);
-    return () => clearTimeout(timer);
+    const t = setTimeout(() => setAnimateCounters(true), 200);
+    return () => clearTimeout(t);
   }, []);
 
   return (
-    <div className="vsc-view about-view" ref={heroRef}>
+    <div className="about-view">
       {/* ── Hero ── */}
       <section className="about-hero">
-        {/* Numéros de ligne façon éditeur de code */}
-        <div className="about-hero__line-numbers" aria-hidden="true">
-          {Array.from({ length: 20 }, (_, i) => (
-            <span key={i} className="about-hero__line-num">
-              {i + 1}
-            </span>
-          ))}
-        </div>
-
         <div className="about-hero__content">
-          {/* Greeting */}
-          <p className="about-hero__greeting">
-            <span className="code-comment">
-              {"// Bienvenue sur mon portfolio"}
+          <h1 className="about-hero__headline">
+            <span className="about-hero__headline-line1">Bonjour, je suis</span>
+            <span className="about-hero__headline-line2">{PROFILE.name}</span>
+            <span className="about-hero__headline-line3">
+              {PROFILE.title} {PROFILE.titleAccent}
             </span>
-          </p>
-
-          {/* Nom */}
-          <h1 className="about-hero__name">
-            <span className="code-keyword">const </span>
-            <span className="about-hero__name-text">{PROFILE.name}</span>
-            <span className="about-hero__cursor" aria-hidden="true" />
           </h1>
 
-          {/* Titre */}
-          <p className="about-hero__title">
-            <span className="code-comment">{"// "}</span>
-            <span className="about-hero__title-text">{PROFILE.title}</span>
-          </p>
+          <p className="about-hero__bio">{PROFILE.bio}</p>
 
-          {/* Liens sociaux */}
+          <div className="about-hero__cta">
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate?.("projects");
+              }}
+              className="about-cta-btn about-cta-btn--primary"
+            >
+              Voir mes projets →
+            </a>
+            <a
+              href={`mailto:${PROFILE.email}`}
+              className="about-cta-btn about-cta-btn--ghost"
+            >
+              Me contacter
+            </a>
+          </div>
+
           <div className="about-hero__links">
             <a
               href={PROFILE.github}
               target="_blank"
               rel="noopener noreferrer"
               className="about-social-btn"
-              aria-label="GitHub"
             >
-              {/* GitHub icon */}
               <svg
-                width="18"
-                height="18"
+                width="16"
+                height="16"
                 viewBox="0 0 24 24"
                 fill="currentColor"
                 aria-hidden="true"
@@ -263,11 +181,10 @@ export function AboutView() {
               target="_blank"
               rel="noopener noreferrer"
               className="about-social-btn about-social-btn--linkedin"
-              aria-label="LinkedIn"
             >
               <svg
-                width="18"
-                height="18"
+                width="16"
+                height="16"
                 viewBox="0 0 24 24"
                 fill="currentColor"
                 aria-hidden="true"
@@ -277,30 +194,34 @@ export function AboutView() {
               LinkedIn
             </a>
 
+            {/* ── Bouton CV : ouvre la vue resume (visualisation) ── */}
             <a
-              href="/resume.pdf"
-              download
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate?.("resume");
+              }}
               className="about-social-btn about-social-btn--cv"
-              aria-label="Télécharger le CV"
             >
               <svg
-                width="18"
-                height="18"
+                width="16"
+                height="16"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
                 aria-hidden="true"
               >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
               </svg>
               CV
             </a>
           </div>
 
-          {/* Compteurs */}
           <div className="about-counters">
             {COUNTERS.map((c) => (
               <Counter
@@ -313,9 +234,10 @@ export function AboutView() {
             ))}
           </div>
         </div>
+        <div className="about-hero__gradient" aria-hidden="true" />
       </section>
 
-      {/* ── Onglets Bio / Formation / Hobbies ── */}
+      {/* ── Onglets ── */}
       <section className="about-tabs-section">
         <div className="about-tabs" role="tablist">
           {TABS.map((tab) => (
@@ -330,11 +252,56 @@ export function AboutView() {
             </button>
           ))}
         </div>
-
-        <div role="tabpanel" aria-label={activeTab}>
+        <div
+          className="about-tab-content"
+          role="tabpanel"
+          aria-label={activeTab}
+        >
           {activeTab === "Bio" && <BioTab />}
-          {activeTab === "Formation" && <FormationTab />}
           {activeTab === "Hobbies" && <HobbiesTab />}
+        </div>
+      </section>
+
+      {/* ── Parcours ── */}
+      <section className="about-parcours">
+        <div className="about-parcours__card about-parcours__card--active">
+          <div className="about-parcours__card-icon">💼</div>
+          <div className="about-parcours__card-body">
+            <span className="about-parcours__card-status">En cours</span>
+            <h3 className="about-parcours__card-title">
+              Recherche d&apos;alternance
+            </h3>
+            <p className="about-parcours__card-desc">
+              Ouvert à des opportunités sur Rennes et sa région · Dev web /
+              fullstack
+            </p>
+          </div>
+        </div>
+        <div className="about-parcours__card">
+          <div className="about-parcours__card-icon">🚀</div>
+          <div className="about-parcours__card-body">
+            <span className="about-parcours__card-status">Rentrée 2026</span>
+            <h3 className="about-parcours__card-title">
+              Bachelor Epitech Rennes
+            </h3>
+            <p className="about-parcours__card-desc">
+              Formation en alternance · Architecture logicielle &amp; projets
+              innovants
+            </p>
+          </div>
+        </div>
+        <div className="about-parcours__card">
+          <div className="about-parcours__card-icon">🎓</div>
+          <div className="about-parcours__card-body">
+            <span className="about-parcours__card-status">2024 — 2026</span>
+            <h3 className="about-parcours__card-title">
+              BTS SIO — Option SLAM
+            </h3>
+            <p className="about-parcours__card-desc">
+              Pôle Sup de La Salle · Rennes — Développement logiciel &amp; web,
+              bases de données, cybersécurité
+            </p>
+          </div>
         </div>
       </section>
     </div>

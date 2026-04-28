@@ -1,7 +1,13 @@
 "use client";
 
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
-import { closeTab, setActiveTab } from "@/lib/redux/slices/explorerSlice";
+import {
+  closeTab,
+  setActiveTab,
+  openFile,
+  openFolder,
+  toggleFolder,
+} from "@/lib/redux/slices/explorerSlice";
 import { WelcomeScreen } from "./WelcomeScreen";
 import { AboutView } from "@/components/editor-views/AboutView";
 import { ServicesView } from "@/components/editor-views/ServicesView";
@@ -11,18 +17,6 @@ import { TimelineView } from "@/components/editor-views/TimelineView";
 import { ContactView } from "@/components/editor-views/ContactView";
 import { ResumeView } from "@/components/editor-views/ResumeView";
 
-// Map fileId → composant de vue
-const VIEW_MAP: Record<string, React.ComponentType> = {
-  about_me: AboutView,
-  services: ServicesView,
-  skills: SkillsView,
-  projects: ProjectsView,
-  timeline: TimelineView,
-  contact: ContactView,
-  resume: ResumeView,
-};
-
-// Icône par langage pour les onglets
 function TabIcon({ language }: { language: string }) {
   if (language === "typescriptreact") {
     return (
@@ -58,7 +52,6 @@ function TabIcon({ language }: { language: string }) {
       </svg>
     );
   }
-  // typescript par défaut
   return (
     <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true">
       <rect width="16" height="16" rx="2" fill="#3178c6" />
@@ -76,16 +69,67 @@ function TabIcon({ language }: { language: string }) {
   );
 }
 
+const FILE_META: Record<
+  string,
+  { label: string; language: "typescript" | "typescriptreact" | "pdf" }
+> = {
+  about_me: { label: "a_propos.ts", language: "typescript" },
+  services: { label: "services.ts", language: "typescript" },
+  skills: { label: "competences.tsx", language: "typescriptreact" },
+  projects: { label: "projets.tsx", language: "typescriptreact" },
+  timeline: { label: "timeline.ts", language: "typescript" },
+  contact: { label: "contact.tsx", language: "typescriptreact" },
+  resume: { label: "cv.pdf", language: "pdf" },
+};
+
+// Dossier parent à ouvrir automatiquement pour chaque fichier
+const PARENT_FOLDER: Record<string, string> = {
+  projects: "components",
+  skills: "components",
+  timeline: "experience",
+};
+
 export function VSCodeEditor() {
   const dispatch = useAppDispatch();
   const { openTabs, activeTabId } = useAppSelector((s) => s.explorer);
 
-  // Détermine le composant à afficher
-  const ActiveView = activeTabId ? VIEW_MAP[activeTabId] : null;
+  function handleNavigate(viewId: string) {
+    const meta = FILE_META[viewId];
+    if (!meta) return;
+
+    // Ouvre le dossier parent dans la sidebar si défini
+    const folder = PARENT_FOLDER[viewId];
+    if (folder) dispatch(openFolder(folder));
+
+    dispatch(
+      openFile({ id: viewId, label: meta.label, language: meta.language }),
+    );
+  }
+
+  function renderContent() {
+    if (!activeTabId) return <WelcomeScreen />;
+    switch (activeTabId) {
+      case "about_me":
+        return <AboutView onNavigate={handleNavigate} />;
+      case "services":
+        return <ServicesView />;
+      case "skills":
+        return <SkillsView />;
+      case "projects":
+        return <ProjectsView />;
+      case "timeline":
+        return <TimelineView />;
+      case "contact":
+        return <ContactView />;
+      case "resume":
+        return <ResumeView />;
+      default:
+        return <WelcomeScreen />;
+    }
+  }
 
   return (
     <main className="vsc-editor" role="main" aria-label="Éditeur">
-      {/* Barre d'onglets — visible seulement si des fichiers sont ouverts */}
       {openTabs.length > 0 && (
         <div className="vsc-tabs" role="tablist" aria-label="Fichiers ouverts">
           {openTabs.map((tab) => {
@@ -107,8 +151,6 @@ export function VSCodeEditor() {
               >
                 <TabIcon language={tab.language} />
                 <span className="vsc-tab__label">{tab.label}</span>
-
-                {/* Bouton fermer */}
                 <button
                   className="vsc-tab__close"
                   aria-label={`Fermer ${tab.label}`}
@@ -133,10 +175,7 @@ export function VSCodeEditor() {
         </div>
       )}
 
-      {/* Zone de contenu */}
-      <div className="vsc-editor__content">
-        {!activeTabId || !ActiveView ? <WelcomeScreen /> : <ActiveView />}
-      </div>
+      <div className="vsc-editor__content">{renderContent()}</div>
     </main>
   );
 }

@@ -29,21 +29,21 @@ export const EXPLORER_TREE: ExplorerNode[] = [
     children: [
       {
         id: 'about_me',
-        label: 'about_me.ts',
+        label: 'a_propos.ts',
         type: 'file',
         language: 'typescript',
         isSystem: false,
       },
-      {
-        id: 'services',
-        label: 'services.ts',
-        type: 'file',
-        language: 'typescript',
-        isSystem: false,
-      },
+      // {
+      //   id: 'services',
+      //   label: 'services.ts',
+      //   type: 'file',
+      //   language: 'typescript',
+      //   isSystem: false,
+      // },
       {
         id: 'resume',
-        label: 'resume.pdf',
+        label: 'cv.pdf',
         type: 'file',
         language: 'pdf',
         isSystem: false,
@@ -66,36 +66,36 @@ export const EXPLORER_TREE: ExplorerNode[] = [
         children: [
           {
             id: 'skills',
-            label: 'skills.tsx',
+            label: 'competences.tsx',
             type: 'file',
             language: 'typescriptreact',
             isSystem: false,
           },
           {
             id: 'projects',
-            label: 'projects.tsx',
+            label: 'projets.tsx',
             type: 'file',
             language: 'typescriptreact',
             isSystem: false,
           },
         ],
       },
-      {
-        id: 'experience',
-        label: 'experience',
-        type: 'folder',
-        isSystem: false,
-        isOpen: false,
-        children: [
-          {
-            id: 'timeline',
-            label: 'timeline.ts',
-            type: 'file',
-            language: 'typescript',
-            isSystem: false,
-          },
-        ],
-      },
+      // {
+      //   id: 'experience',
+      //   label: 'experience',
+      //   type: 'folder',
+      //   isSystem: false,
+      //   isOpen: false,
+      //   children: [
+      //     {
+      //       id: 'timeline',
+      //       label: 'timeline.ts',
+      //       type: 'file',
+      //       language: 'typescript',
+      //       isSystem: false,
+      //     },
+      //   ],
+      // },
       {
         id: 'contact',
         label: 'contact.tsx',
@@ -205,6 +205,20 @@ const explorerSlice = createSlice({
       toggle(state.tree);
     },
 
+     openFolder(state, action: PayloadAction<string>) {
+      const open = (nodes: ExplorerNode[]): boolean => {
+        for (const node of nodes) {
+          if (node.id === action.payload && node.type === 'folder') {
+            node.isOpen = true;
+            return true;
+          }
+          if (node.children && open(node.children)) return true;
+        }
+        return false;
+      };
+      open(state.tree);
+    },
+
     // Sélectionne un fichier dans l'explorer sans l'ouvrir
     selectFile(state, action: PayloadAction<string>) {
       state.selectedFileId = action.payload;
@@ -217,6 +231,7 @@ export const {
   closeTab,
   setActiveTab,
   setActivePanel,
+  openFolder,
   toggleFolder,
   selectFile,
 } = explorerSlice.actions;
