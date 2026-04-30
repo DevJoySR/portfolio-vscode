@@ -6,7 +6,6 @@ import {
   setActiveTab,
   openFile,
   openFolder,
-  toggleFolder,
 } from "@/lib/redux/slices/explorerSlice";
 import { WelcomeScreen } from "./WelcomeScreen";
 import { AboutView } from "@/components/editor-views/AboutView";
