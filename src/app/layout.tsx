@@ -4,9 +4,9 @@ import "@/styles/portfolio.css";
 import { ReduxProvider } from "@/lib/redux/ReduxProvider";
 
 export const metadata: Metadata = {
-  title: "Adrien Sudja — Développeur Full-Stack",
+  title: "Adrien Sudja — Développeur Full-Stack & Créatif | Portfolio",
   description:
-    "Portfolio développeur web full-stack. Next.js, React, TypeScript, Java. Étudiant BTS SIO SLAM, futur bachelier Epitech Rennes.",
+    "Portfolio de développeur web full-stack. Spécialisé Next.js, React, TypeScript et Java. Étudiant BTS SIO SLAM, futur bachelier Epitech Rennes. Disponible pour alternance.",
   authors: [{ name: "Adrien Sudja" }],
   keywords: [
     "développeur web",
@@ -25,10 +25,19 @@ export const metadata: Metadata = {
     siteName: "Portfolio — Adrien Sudja",
     locale: "fr_FR",
     type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Portfolio Adrien Sudja",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Adrien Sudja — Développeur Full-Stack",
+    images: ["/og-image.png"],
     description:
       "Portfolio développeur web full-stack. Next.js, React, TypeScript, Java.",
   },
