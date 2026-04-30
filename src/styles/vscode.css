@@ -71,7 +71,8 @@
   display: flex;
   flex: 1;
   overflow: hidden;
-  min-height: 0; /* fix flex enfant qui déborde */
+  min-height: 0;
+  position: relative;
 }
 
 /* ── Top Bar ───────────────────────────────────────────────────────────────── */

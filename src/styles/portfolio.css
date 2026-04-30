@@ -767,6 +767,39 @@
   .about-parcours {
     padding: 24px 20px 32px;
   }
+  .about-hero__cta {
+    flex-direction: row;
+  }
+
+  .about-cta-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 10px 12px;
+    font-size: 0.82rem;
+  }
+
+  .about-hero__links {
+    flex-direction: row;
+  }
+
+  .about-social-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 7px 8px;
+    font-size: 12px;
+  }
+  .about-counters {
+    justify-content: center;
+    gap: 24px;
+  }
+
+  .about-counter {
+    align-items: center;
+    text-align: center;
+  }
+  .about-hero__gradient {
+    display: none;
+  }
 }
 
 /* ── Skills View ── */
