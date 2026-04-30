@@ -1,24 +1,26 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { PROJECTS } from "@/data/projects";
 
 const PROFILE = {
   name: "Adrien Sudja",
   title: "Développeur",
   titleAccent: "full-stack & créatif",
   location: "Rennes / Vannes",
-  age: 21,
   github: "https://github.com/DevJoySR",
   linkedin: "https://www.linkedin.com/in/adrien-sudja-247824329/",
   email: "adriensudja.pro@outlook.fr",
-  bio: "Étudiant en BTS SIO option SLAM, futur bachelier Epitech à Rennes. Je conçois des applications web robustes avec une attention particulière à l'expérience utilisateur.",
+  bio: "Développeur web en formation, je monte en compétences sur le frontend (React, Next.js, TypeScript) et le backend (PHP, Node.js, Java) à travers des bons projets. Curieux et autonome, j&apos;aime apprendre et je cherche une alternance chez Epitech Rennes en 2026 pour monter en compétences !",
 };
 
 const COUNTERS = [
   { label: "Ans de pratique", value: 2, suffix: "+" },
-  { label: "Projets réalisés", value: 5, suffix: "+" },
+  { label: "Projets réalisés", value: PROJECTS.length, suffix: "+" },
   { label: "Technologies", value: 20, suffix: "+" },
 ];
+
+const AGE = getAge("12/10/2004");
 
 const TABS = ["Bio", "Hobbies"] as const;
 type Tab = (typeof TABS)[number];
@@ -65,7 +67,16 @@ function Counter({
 function BioTab() {
   return (
     <div className="pf-tab-content">
-      <p className="pf-tab-content__text">{PROFILE.bio}</p>
+      <p className="pf-tab-content__text">
+        Je m&apos;appelle Adrien, développeur passionné basé à Rennes.
+        Actuellement en BTS SIO option SLAM, je rejoindrai Epitech Rennes en
+        bachelor en alternance à la rentrée prochaine. J&apos;adore créer des
+        interfaces intuitives et des backends solides. Curieux et autonome,
+        j&apos;apprends constamment de nouvelles technologies pour proposer des
+        solutions modernes et performantes. En dehors du code, je
+        m&apos;intéresse à l&apos;UI/UX design, aux nouvelles technos et au
+        développement open source.
+      </p>
       <div className="pf-info-grid">
         <div className="pf-info-item">
           <span className="pf-info-item__label">Localisation</span>
@@ -73,7 +84,7 @@ function BioTab() {
         </div>
         <div className="pf-info-item">
           <span className="pf-info-item__label">Âge</span>
-          <span className="pf-info-item__value">{PROFILE.age} ans</span>
+          <span className="pf-info-item__value">{AGE} ans</span>
         </div>
         <div className="pf-info-item">
           <span className="pf-info-item__label">Email</span>
@@ -110,6 +121,19 @@ function HobbiesTab() {
       </div>
     </div>
   );
+}
+
+function getAge(birthDate: string): number {
+  const [day, month, year] = birthDate.split("/").map(Number);
+  const today = new Date();
+  const birth = new Date(year, month - 1, day);
+  let age = today.getFullYear() - birth.getFullYear();
+  const notYet =
+    today.getMonth() < birth.getMonth() ||
+    (today.getMonth() === birth.getMonth() &&
+      today.getDate() < birth.getDate());
+  if (notYet) age--;
+  return age;
 }
 
 export function AboutView({
@@ -194,7 +218,6 @@ export function AboutView({
               LinkedIn
             </a>
 
-            {/* ── Bouton CV : ouvre la vue resume (visualisation) ── */}
             <a
               href="#"
               onClick={(e) => {
