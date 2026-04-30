@@ -35,3 +35,20 @@
 | projects    | projets.tsx     | ProjectsView |
 | contact     | contact.tsx     | ContactView  |
 | resume      | cv.pdf          | ResumeView   |
+
+## CSS — Règles hybrid Tailwind / Custom
+
+**Tailwind** pour :
+
+- Layout utilitaire dans le JSX (`flex`, `items-center`, `gap-2`, `overflow-hidden`)
+- Espacements ponctuels non thémés (`mt-4`, `px-6`)
+
+**CSS custom** (`vscode.css` / `portfolio.css`) pour :
+
+- Tout ce qui utilise `var(--vsc-*)` ou `var(--omni-*)`
+- Les classes `vsc-*` (shell VSCode)
+- Les classes `pf-*`, `about-*`, `sk-*`, `resume-*` (vues portfolio)
+- Les états (`.pf-filter-btn--active`, `.vsc-tab--active`)
+- Les animations (`@keyframes`)
+
+**Règle absolue** : ne jamais surcharger une propriété déjà définie dans le CSS custom avec une classe Tailwind sur le même élément.

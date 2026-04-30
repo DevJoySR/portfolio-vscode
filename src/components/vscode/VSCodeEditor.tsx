@@ -9,10 +9,8 @@ import {
 } from "@/lib/redux/slices/explorerSlice";
 import { WelcomeScreen } from "./WelcomeScreen";
 import { AboutView } from "@/components/editor-views/AboutView";
-import { ServicesView } from "@/components/editor-views/ServicesView";
 import { SkillsView } from "@/components/editor-views/SkillsView";
 import { ProjectsView } from "@/components/editor-views/ProjectsView";
-import { TimelineView } from "@/components/editor-views/TimelineView";
 import { ContactView } from "@/components/editor-views/ContactView";
 import { ResumeView } from "@/components/editor-views/ResumeView";
 
@@ -73,10 +71,8 @@ const FILE_META: Record<
   { label: string; language: "typescript" | "typescriptreact" | "pdf" }
 > = {
   about_me: { label: "a_propos.ts", language: "typescript" },
-  services: { label: "services.ts", language: "typescript" },
   skills: { label: "competences.tsx", language: "typescriptreact" },
   projects: { label: "projets.tsx", language: "typescriptreact" },
-  timeline: { label: "timeline.ts", language: "typescript" },
   contact: { label: "contact.tsx", language: "typescriptreact" },
   resume: { label: "cv.pdf", language: "pdf" },
 };
@@ -85,7 +81,6 @@ const FILE_META: Record<
 const PARENT_FOLDER: Record<string, string> = {
   projects: "components",
   skills: "components",
-  timeline: "experience",
 };
 
 export function VSCodeEditor() {
@@ -110,14 +105,10 @@ export function VSCodeEditor() {
     switch (activeTabId) {
       case "about_me":
         return <AboutView onNavigate={handleNavigate} />;
-      case "services":
-        return <ServicesView />;
       case "skills":
         return <SkillsView />;
       case "projects":
         return <ProjectsView />;
-      case "timeline":
-        return <TimelineView />;
       case "contact":
         return <ContactView />;
       case "resume":
