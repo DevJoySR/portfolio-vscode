@@ -615,8 +615,38 @@
     bottom: 0;
     z-index: 50;
   }
+
   .vsc-editor__content {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+  }
+
+  .vsc-topbar__menu {
+    display: none;
+  }
+
+  .vsc-topbar {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .vsc-topbar__center {
+    justify-content: center;
+  }
+
+  .vsc-statusbar__right {
+    display: none;
+  }
+
+  .vsc-statusbar__item:nth-child(3) {
+    display: none;
+  }
+  .vsc-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .vsc-tab {
+    min-width: max-content;
+    flex-shrink: 0;
   }
 }
