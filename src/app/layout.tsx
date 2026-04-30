@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import "@/styles/globals.css";
 import "@/styles/vscode.css";
 import "@/styles/portfolio.css";
 import { ReduxProvider } from "@/lib/redux/ReduxProvider";
