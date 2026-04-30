@@ -1,5 +1,5 @@
 import type { FileTab, SidebarPanel, ExplorerNode, FileLanguage } from '../type';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';;
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // ─── Arborescence statique du portfolio ───────────────────────────────────────
 // isSystem: true = grisé, non-interactif (fichiers de config réels du projet)
@@ -34,13 +34,6 @@ export const EXPLORER_TREE: ExplorerNode[] = [
         language: 'typescript',
         isSystem: false,
       },
-      // {
-      //   id: 'services',
-      //   label: 'services.ts',
-      //   type: 'file',
-      //   language: 'typescript',
-      //   isSystem: false,
-      // },
       {
         id: 'resume',
         label: 'cv.pdf',
@@ -80,22 +73,13 @@ export const EXPLORER_TREE: ExplorerNode[] = [
           },
         ],
       },
-      // {
-      //   id: 'experience',
-      //   label: 'experience',
-      //   type: 'folder',
-      //   isSystem: false,
-      //   isOpen: false,
-      //   children: [
-      //     {
-      //       id: 'timeline',
-      //       label: 'timeline.ts',
-      //       type: 'file',
-      //       language: 'typescript',
-      //       isSystem: false,
-      //     },
-      //   ],
-      // },
+      {
+        id: 'experience',
+        label: 'experience',
+        type: 'folder',
+        isSystem: false,
+        isOpen: false,
+      },
       {
         id: 'contact',
         label: 'contact.tsx',
