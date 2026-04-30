@@ -5,6 +5,9 @@ import { ReduxProvider } from "@/lib/redux/ReduxProvider";
 
 export const metadata: Metadata = {
   title: "Adrien Sudja — Développeur Full-Stack & Créatif | Portfolio",
+  icons: {
+    icon: "/favicon.svg",
+  },
   description:
     "Portfolio de développeur web full-stack. Spécialisé Next.js, React, TypeScript et Java. Étudiant BTS SIO SLAM, futur bachelier Epitech Rennes. Disponible pour alternance.",
   authors: [{ name: "Adrien Sudja" }],
@@ -21,7 +24,7 @@ export const metadata: Metadata = {
     title: "Adrien Sudja — Développeur Full-Stack",
     description:
       "Portfolio développeur web full-stack. Next.js, React, TypeScript, Java.",
-    url: "adriensudja.fr",
+    url: "https://adriensudja.fr",
     siteName: "Portfolio — Adrien Sudja",
     locale: "fr_FR",
     type: "website",
