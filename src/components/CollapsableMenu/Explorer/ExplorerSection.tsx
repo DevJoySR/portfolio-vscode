@@ -74,13 +74,9 @@ export function ExplorerSection({ node, depth }: Props) {
       className={`vsc-tree-row vsc-tree-row--file${node.isSystem ? " vsc-tree-row--system" : ""}${isSelected ? " vsc-tree-row--selected" : ""}`}
       style={{ paddingLeft: indent + 20 }}
       onClick={() => {
-        if (node.isSystem) return;
+        if (node.isSystem || !node.language) return;
         dispatch(
-          openFile({
-            id: node.id,
-            label: node.label,
-            language: node.language ?? "typescript",
-          }),
+          openFile({ id: node.id, label: node.label, language: node.language }),
         );
       }}
       tabIndex={node.isSystem ? -1 : 0}

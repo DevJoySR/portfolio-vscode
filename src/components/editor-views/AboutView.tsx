@@ -11,7 +11,7 @@ const PROFILE = {
   github: "https://github.com/DevJoySR",
   linkedin: "https://www.linkedin.com/in/adrien-sudja-247824329/",
   email: "adriensudja.pro@outlook.fr",
-  bio: "Développeur web en formation, je monte en compétences sur le frontend (React, Next.js, TypeScript) et le backend (PHP, Node.js, Java) à travers des bons projets. Curieux et autonome, j&apos;aime apprendre et je cherche une alternance chez Epitech Rennes en 2026 pour monter en compétences !",
+  bio: "Développeur web en formation, je monte en compétences sur le frontend (React, Next.js, TypeScript) et le backend (PHP, Node.js, Java) à travers des bons projets. Curieux et autonome, j'aime apprendre et je cherche une alternance chez Epitech Rennes en 2026 pour monter en compétences !",
 };
 
 const COUNTERS = [
