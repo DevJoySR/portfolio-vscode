@@ -7,7 +7,6 @@ import {
   openFile,
   openFolder,
 } from "@/lib/redux/slices/explorerSlice";
-import { WelcomeScreen } from "./WelcomeScreen";
 import { AboutView } from "@/components/editor-views/AboutView";
 import { SkillsView } from "@/components/editor-views/SkillsView";
 import { ProjectsView } from "@/components/editor-views/ProjectsView";
@@ -101,7 +100,6 @@ export function VSCodeEditor() {
   }
 
   function renderContent() {
-    if (!activeTabId) return <WelcomeScreen />;
     switch (activeTabId) {
       case "about_me":
         return <AboutView onNavigate={handleNavigate} />;
@@ -114,7 +112,7 @@ export function VSCodeEditor() {
       case "resume":
         return <ResumeView />;
       default:
-        return <WelcomeScreen />;
+        return <AboutView onNavigate={handleNavigate} />;
     }
   }
 

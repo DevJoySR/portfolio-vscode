@@ -104,9 +104,17 @@ export interface ExplorerState {
 
 const initialState: ExplorerState = {
   tree: EXPLORER_TREE,
-  openTabs: [],
-  activeTabId: null,
-  selectedFileId: null,
+  openTabs: [
+    {
+      id: 'about_me',
+      label: 'a_propos.ts',
+      language: 'typescript',
+      isDirty: false,
+      isPreview: false,
+    },
+  ],
+  activeTabId: 'about_me',
+  selectedFileId: 'about_me',
   activePanel: 'explorer',
   sidebarOpen: true,
 };

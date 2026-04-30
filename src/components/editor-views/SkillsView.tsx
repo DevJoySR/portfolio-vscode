@@ -10,7 +10,6 @@ const SKILLS = [
       "JavaScript",
       "TypeScript",
       "React",
-      "Vue.js",
       "Next.js",
       "TailwindCSS",
       "Figma",
@@ -20,7 +19,7 @@ const SKILLS = [
     category: "Backend",
     icon: "⚙️",
     color: "var(--omni-cyan)",
-    items: ["Node.js", "Express", "PHP", "Python", "Flask", "REST API", "Java"],
+    items: ["Java", "Node.js", "Express", "PHP", "Python", "Flask", "REST API"],
   },
   {
     category: "Bases de données",
@@ -32,14 +31,7 @@ const SKILLS = [
     category: "Outils & DevOps",
     icon: "🛠️",
     color: "var(--omni-orange)",
-    items: [
-      "Git / GitHub",
-      "Linux",
-      "Docker",
-      "Postman",
-      "Agile / Scrum",
-      "VS Code",
-    ],
+    items: ["Git / GitHub", "Linux", "Postman", "Agile / Scrum", "VS Code"],
   },
 ] as const;
 
