@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     title: "Adrien Sudja — Développeur Full-Stack",
     description:
       "Portfolio développeur web full-stack. Next.js, React, TypeScript, Java.",
-    url: "https://portfolio-vscode-2t1rzik4q-devjoysrs-projects.vercel.app/",
+    url: "adriensudja.fr",
     siteName: "Portfolio — Adrien Sudja",
     locale: "fr_FR",
     type: "website",
