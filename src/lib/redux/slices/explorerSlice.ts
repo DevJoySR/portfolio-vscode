@@ -74,13 +74,6 @@ export const EXPLORER_TREE: ExplorerNode[] = [
         ],
       },
       {
-        id: 'experience',
-        label: 'experience',
-        type: 'folder',
-        isSystem: false,
-        isOpen: false,
-      },
-      {
         id: 'contact',
         label: 'contact.tsx',
         type: 'file',
