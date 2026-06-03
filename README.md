@@ -22,15 +22,15 @@ Le formulaire de contact envoie de vrais emails via l'API [Resend](https://resen
 
 ## 🚀 Stack technique
 
-| Technologie | Rôle |
-|---|---|
-| **Next.js 16** | Framework — App Router, Server Actions |
-| **React 19** | UI |
-| **TypeScript 5** | Typage statique |
-| **Redux Toolkit 2** | État global — onglets ouverts, vue active, sidebar |
-| **Tailwind CSS v4** | Utilitaires CSS |
-| **CSS custom** | `vscode.css` (tokens + classes `vsc-*`) · `portfolio.css` (classes `pf-*`, `sk-*`) |
-| **Resend** | Envoi d'emails via API Route Next.js |
+| Technologie         | Rôle                                                                               |
+| ------------------- | ---------------------------------------------------------------------------------- |
+| **Next.js 16**      | Framework — App Router, Server Actions                                             |
+| **React 19**        | UI                                                                                 |
+| **TypeScript 5**    | Typage statique                                                                    |
+| **Redux Toolkit 2** | État global — onglets ouverts, vue active, sidebar                                 |
+| **Tailwind CSS v4** | Utilitaires CSS                                                                    |
+| **CSS custom**      | `vscode.css` (tokens + classes `vsc-*`) · `portfolio.css` (classes `pf-*`, `sk-*`) |
+| **Resend**          | Envoi d'emails via API Route Next.js                                               |
 
 ---
 

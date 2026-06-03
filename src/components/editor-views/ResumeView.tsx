@@ -4,7 +4,7 @@ export function ResumeView() {
   return (
     <div className="resume-view">
       <div className="resume-view__toolbar">
-        <span className="resume-view__filename">resume.pdf</span>
+        <span className="resume-view__filename">cv.pdf</span>
         <a
           href="/cv_portfolio.pdf"
           download="cv_adrien_sudja.pdf"
