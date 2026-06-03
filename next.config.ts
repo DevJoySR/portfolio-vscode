@@ -1,7 +1,24 @@
 import type { NextConfig } from "next";
 
+
 const nextConfig: NextConfig = {
-  // options Next.js ici (images, redirects, etc.)
+  async headers() {
+    return [
+      {
+        source: "/cv_portfolio.pdf",
+        headers: [
+          {
+            key: "X-Frame-Options",
+            value: "SAMEORIGIN",
+          },
+          {
+            key: "Content-Type",
+            value: "application/pdf",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
