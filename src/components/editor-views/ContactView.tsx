@@ -10,7 +10,9 @@ const CONTACT = {
 
 export function ContactView() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -18,14 +20,22 @@ export function ContactView() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Contact portfolio — ${form.name}`);
-    const body = encodeURIComponent(
-      `Nom : ${form.name}\nEmail : ${form.email}\n\n${form.message}`,
-    );
-    window.open(`mailto:${CONTACT.email}?subject=${subject}&body=${body}`);
-    setSent(true);
+    setStatus("loading");
+
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
+
+    if (res.ok) {
+      setStatus("success");
+      setForm({ name: "", email: "", message: "" });
+    } else {
+      setStatus("error");
+    }
   };
 
   return (
@@ -109,15 +119,13 @@ export function ContactView() {
         </div>
 
         <div className="pf-contact__form-wrap">
-          {sent ? (
+          {status === "success" ? (
             <div className="pf-contact__success">
               <span className="pf-contact__success-icon">✓</span>
-              <p>
-                Votre client mail s&apos;est ouvert avec le message pré-rempli.
-              </p>
+              <p>Message envoyé ! Je te répondrai rapidement.</p>
               <button
                 className="pf-btn pf-btn--ghost"
-                onClick={() => setSent(false)}
+                onClick={() => setStatus("idle")}
               >
                 Envoyer un autre message
               </button>
@@ -172,9 +180,15 @@ export function ContactView() {
               <button
                 type="submit"
                 className="pf-btn pf-btn--primary pf-btn--full"
+                disabled={status === "loading"}
               >
-                Envoyer →
+                {status === "loading" ? "Envoi..." : "Envoyer →"}
               </button>
+              {status === "error" && (
+                <p style={{ color: "red", marginTop: "8px" }}>
+                  Erreur lors de l&apos;envoi. Réessaie.
+                </p>
+              )}
             </form>
           )}
         </div>
