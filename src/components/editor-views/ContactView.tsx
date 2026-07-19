@@ -13,6 +13,7 @@ export function ContactView() {
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -23,17 +24,30 @@ export function ContactView() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("loading");
+    setErrorMessage(null);
 
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
 
-    if (res.ok) {
-      setStatus("success");
-      setForm({ name: "", email: "", message: "" });
-    } else {
+      if (res.ok) {
+        setStatus("success");
+        setForm({ name: "", email: "", message: "" });
+        return;
+      }
+
+      const data = await res.json().catch(() => null);
+      setErrorMessage(
+        data?.error ?? "Erreur lors de l'envoi. Réessaie.",
+      );
+      setStatus("error");
+    } catch {
+      setErrorMessage(
+        "Impossible de contacter le serveur. Vérifie ta connexion.",
+      );
       setStatus("error");
     }
   };
@@ -185,8 +199,8 @@ export function ContactView() {
                 {status === "loading" ? "Envoi..." : "Envoyer →"}
               </button>
               {status === "error" && (
-                <p style={{ color: "red", marginTop: "8px" }}>
-                  Erreur lors de l&apos;envoi. Réessaie.
+                <p className="pf-form__error" role="alert" aria-live="polite">
+                  {errorMessage ?? "Erreur lors de l'envoi. Réessaie."}
                 </p>
               )}
             </form>

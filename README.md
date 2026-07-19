@@ -24,7 +24,7 @@ Le formulaire de contact envoie de vrais emails via l'API [Resend](https://resen
 
 | Technologie         | Rôle                                                                               |
 | ------------------- | ---------------------------------------------------------------------------------- |
-| **Next.js 16**      | Framework — App Router, Server Actions                                             |
+| **Next.js 16**      | Framework — App Router, Route Handlers                                             |
 | **React 19**        | UI                                                                                 |
 | **TypeScript 5**    | Typage statique                                                                    |
 | **Redux Toolkit 2** | État global — onglets ouverts, vue active, sidebar                                 |
@@ -106,11 +106,12 @@ Ouvre [http://localhost:3000](http://localhost:3000)
 
 ## 📬 Formulaire de contact
 
-L'envoi de mail est géré par une API Route Next.js (`/api/contact`) qui utilise [Resend](https://resend.com).
+L'envoi de mail est géré par un Route Handler Next.js (`/api/contact`) qui utilise [Resend](https://resend.com).
 
 - Les emails sont envoyés depuis `contact@adriensudja.fr` (domaine vérifié SPF/DKIM/DMARC)
 - Le champ `replyTo` est défini à l'adresse de l'expéditeur pour faciliter la réponse directe
-- Validation côté serveur : champs obligatoires, longueur max du message (2000 caractères)
+- Validation côté serveur : champs obligatoires, format email, longueurs max (nom, email, message 2000 caractères)
+- Contenu échappé (anti-injection HTML) et limitation de débit par IP (anti-spam)
 
 ---
 
