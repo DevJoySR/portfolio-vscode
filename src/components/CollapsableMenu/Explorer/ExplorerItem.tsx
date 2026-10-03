@@ -51,26 +51,43 @@ const FILE_NAME_MAP: Record<string, string> = {
 // ── Icône dossier ───────────────────────────────────────────────────────────
 interface FolderIconProps {
   id: string;
-  isOpen: boolean;
 }
 
-function FolderIcon({ id, isOpen }: FolderIconProps) {
-  const [errored, setErrored] = React.useState(false);
-  const base = FOLDER_ICON_MAP[id] ?? "folder";
-  const iconName = errored ? "folder" : isOpen ? `${base}-open` : base;
+function FolderIcon({ id }: FolderIconProps) {
+  const base = FOLDER_ICON_MAP[id];
+
+  if (!base) {
+    return (
+      <span
+        style={{
+          width: 16,
+          height: 16,
+          display: "inline-flex",
+          flexShrink: 0,
+        }}
+        aria-hidden="true"
+      >
+        📁
+      </span>
+    );
+  }
 
   return (
     <span
-      style={{ width: 16, height: 16, display: "inline-flex", flexShrink: 0 }}
+      style={{
+        width: 16,
+        height: 16,
+        display: "inline-flex",
+        flexShrink: 0,
+      }}
     >
       <Image
-        src={`${CDN}/${iconName}.svg`}
+        src={`${CDN}/${base}.svg`}
         width={16}
         height={16}
         alt=""
         aria-hidden
         unoptimized
-        onError={() => setErrored(true)}
       />
     </span>
   );
@@ -81,7 +98,7 @@ function FileIcon({ node }: { node: ExplorerNode }) {
   const [errored, setErrored] = React.useState(false);
 
   if (node.type === "folder") {
-    return <FolderIcon id={node.id} isOpen={node.isOpen ?? false} />;
+    return <FolderIcon id={node.id} />;
   }
 
   const name = node.label.toLowerCase();
