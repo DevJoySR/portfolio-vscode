@@ -50,6 +50,7 @@ export function ProjectsView() {
         {CATEGORIES.map((cat) => (
           <button
             key={cat}
+            aria-pressed={activeCategory === cat}
             className={`pf-filter-btn${activeCategory === cat ? " pf-filter-btn--active" : ""}`}
             onClick={() => setActiveCategory(cat)}
           >
@@ -77,7 +78,7 @@ export function ProjectsView() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="pf-project-card__link"
-                    aria-label="GitHub"
+                    aria-label={`Voir le dépôt GitHub de ${p.title}`}
                   >
                     <svg
                       width="16"
@@ -95,7 +96,7 @@ export function ProjectsView() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="pf-project-card__link"
-                    aria-label="Voir le projet"
+                    aria-label={`Voir ${p.title} en ligne`}
                   >
                     <svg
                       width="16"

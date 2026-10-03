@@ -40,9 +40,7 @@ export function ContactView() {
       }
 
       const data = await res.json().catch(() => null);
-      setErrorMessage(
-        data?.error ?? "Erreur lors de l'envoi. Réessaie.",
-      );
+      setErrorMessage(data?.error ?? "Erreur lors de l'envoi. Réessaie.");
       setStatus("error");
     } catch {
       setErrorMessage(
@@ -145,7 +143,7 @@ export function ContactView() {
               </button>
             </div>
           ) : (
-            <form className="pf-form" onSubmit={handleSubmit} noValidate>
+            <form className="pf-form" onSubmit={handleSubmit}>
               <div className="pf-form__group">
                 <label htmlFor="contact-name" className="pf-form__label">
                   Nom
@@ -158,6 +156,7 @@ export function ContactView() {
                   placeholder="Votre nom"
                   value={form.name}
                   onChange={handleChange}
+                  maxLength={100}
                   required
                 />
               </div>
@@ -173,6 +172,7 @@ export function ContactView() {
                   placeholder="votre@email.com"
                   value={form.email}
                   onChange={handleChange}
+                  maxLength={254}
                   required
                 />
               </div>
@@ -188,6 +188,7 @@ export function ContactView() {
                   rows={5}
                   value={form.message}
                   onChange={handleChange}
+                  maxLength={2000}
                   required
                 />
               </div>

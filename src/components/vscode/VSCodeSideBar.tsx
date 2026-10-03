@@ -32,7 +32,9 @@ export function VSCodeSideBar() {
             <input
               className="vsc-sidebar__input"
               placeholder="Rechercher"
-              aria-label="Rechercher dans les fichiers"
+              readOnly
+              tabIndex={-1}
+              aria-hidden="true"
             />
           </div>
         </div>
@@ -47,7 +49,9 @@ export function VSCodeSideBar() {
             <input
               className="vsc-sidebar__input"
               placeholder="Message (Ctrl+Enter pour committer)"
-              aria-label="Message de commit"
+              readOnly
+              tabIndex={-1}
+              aria-hidden="true"
             />
           </div>
         </div>

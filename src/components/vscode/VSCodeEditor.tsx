@@ -127,8 +127,50 @@ export function VSCodeEditor() {
                 key={tab.id}
                 role="tab"
                 aria-selected={isActive}
+                tabIndex={isActive ? 0 : -1}
                 className={`vsc-tab${isActive ? " vsc-tab--active" : ""}`}
                 onClick={() => dispatch(setActiveTab(tab.id))}
+                onKeyDown={(e) => {
+                  const currentIndex = openTabs.findIndex(
+                    (openTab) => openTab.id === tab.id,
+                  );
+
+                  if (e.key === "ArrowRight") {
+                    e.preventDefault();
+
+                    const nextIndex = (currentIndex + 1) % openTabs.length;
+                    const nextTab = openTabs[nextIndex];
+
+                    dispatch(setActiveTab(nextTab.id));
+
+                    const tabs =
+                      e.currentTarget.parentElement?.querySelectorAll<HTMLElement>(
+                        '[role="tab"]',
+                      );
+                    tabs?.[nextIndex]?.focus();
+                  }
+
+                  if (e.key === "ArrowLeft") {
+                    e.preventDefault();
+
+                    const previousIndex =
+                      (currentIndex - 1 + openTabs.length) % openTabs.length;
+                    const previousTab = openTabs[previousIndex];
+
+                    dispatch(setActiveTab(previousTab.id));
+
+                    const tabs =
+                      e.currentTarget.parentElement?.querySelectorAll<HTMLElement>(
+                        '[role="tab"]',
+                      );
+                    tabs?.[previousIndex]?.focus();
+                  }
+
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    dispatch(setActiveTab(tab.id));
+                  }
+                }}
                 onMouseDown={(e) => {
                   if (e.button === 1) {
                     e.preventDefault();

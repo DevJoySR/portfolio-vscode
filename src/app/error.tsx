@@ -4,10 +4,10 @@ import { useEffect } from "react";
 
 export default function Error({
   error,
-  unstable_retry,
+  reset,
 }: {
   error: Error & { digest?: string };
-  unstable_retry: () => void;
+  reset: () => void;
 }) {
   useEffect(() => {
     console.error(error);
@@ -36,7 +36,7 @@ export default function Error({
         Impossible de charger cette vue
       </h2>
       <button
-        onClick={() => unstable_retry()}
+        onClick={() => reset()}
         style={{
           padding: "10px 22px",
           borderRadius: "8px",

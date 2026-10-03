@@ -100,7 +100,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const resend = new Resend(apiKey);
-    await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: 'Portfolio <contact@adriensudja.fr>',
       to: 'adriensudja.pro@outlook.fr',
       replyTo: trimmedEmail,
@@ -112,6 +112,13 @@ export async function POST(req: NextRequest) {
         <p>${safeMessage}</p>
       `,
     });
+    if (error) {
+    console.error('[contact] Resend:', error);
+    return NextResponse.json(
+        { error: 'Erreur lors de l\'envoi du message' },
+        { status: 502 },
+    );
+}
 
     return NextResponse.json({ success: true });
   } catch (err) {

@@ -1,4 +1,17 @@
-export const PROJECTS = [
+export interface Project {
+  id: number;
+  title: string;
+  description: string;
+  tags: string[];
+  category: "Web" | "App";
+  github?: string;
+  live?: string | null;
+  year: string;
+  status: "En cours" | "Terminé";
+  confidential?: boolean;
+}
+
+export const PROJECTS: Project[] = [
   {
     id: 5,
     title: "Portfolio VSCode",

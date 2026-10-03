@@ -1,5 +1,3 @@
-"use client";
-
 export function ResumeView() {
   return (
     <div className="resume-view">

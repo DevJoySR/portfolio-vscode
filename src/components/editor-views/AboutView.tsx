@@ -20,24 +20,34 @@ const COUNTERS = [
   { label: "Technologies", value: 20, suffix: "+" },
 ];
 
-const AGE = getAge("12/10/2004");
-
 const TABS = ["Bio", "Hobbies"] as const;
 type Tab = (typeof TABS)[number];
 
 function useCountUp(target: number, duration = 1400, start = false) {
   const [count, setCount] = useState(0);
+
   useEffect(() => {
     if (!start) return;
+
     let t0: number | null = null;
+    let animationFrameId = 0;
+
     const step = (ts: number) => {
       if (!t0) t0 = ts;
+
       const p = Math.min((ts - t0) / duration, 1);
       setCount(Math.floor((1 - Math.pow(1 - p, 3)) * target));
-      if (p < 1) requestAnimationFrame(step);
+
+      if (p < 1) {
+        animationFrameId = requestAnimationFrame(step);
+      }
     };
-    requestAnimationFrame(step);
+
+    animationFrameId = requestAnimationFrame(step);
+
+    return () => cancelAnimationFrame(animationFrameId);
   }, [target, duration, start]);
+
   return count;
 }
 
@@ -83,8 +93,8 @@ function BioTab() {
           <span className="pf-info-item__value">{PROFILE.location}</span>
         </div>
         <div className="pf-info-item">
-          <span className="pf-info-item__label">Âge</span>
-          <span className="pf-info-item__value">{AGE} ans</span>
+          <span className="pf-info-item__label">Profil</span>
+          <span className="pf-info-item__value">Développeur web</span>
         </div>
         <div className="pf-info-item">
           <span className="pf-info-item__label">Email</span>
@@ -109,8 +119,8 @@ function HobbiesTab() {
   return (
     <div className="pf-tab-content">
       <div className="pf-hobbies">
-        {hobbies.map((h, i) => (
-          <div key={i} className="pf-hobby">
+        {hobbies.map((h) => (
+          <div key={h.label} className="pf-hobby">
             <span className="pf-hobby__icon">{h.icon}</span>
             <div>
               <div className="pf-hobby__label">{h.label}</div>
@@ -121,19 +131,6 @@ function HobbiesTab() {
       </div>
     </div>
   );
-}
-
-function getAge(birthDate: string): number {
-  const [day, month, year] = birthDate.split("/").map(Number);
-  const today = new Date();
-  const birth = new Date(year, month - 1, day);
-  let age = today.getFullYear() - birth.getFullYear();
-  const notYet =
-    today.getMonth() < birth.getMonth() ||
-    (today.getMonth() === birth.getMonth() &&
-      today.getDate() < birth.getDate());
-  if (notYet) age--;
-  return age;
 }
 
 export function AboutView({
@@ -163,16 +160,13 @@ export function AboutView({
           <p className="about-hero__bio">{PROFILE.bio}</p>
 
           <div className="about-hero__cta">
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                onNavigate?.("projects");
-              }}
+            <button
+              type="button"
+              onClick={() => onNavigate?.("projects")}
               className="about-cta-btn about-cta-btn--primary"
             >
               Voir mes projets →
-            </a>
+            </button>
             <a
               href={`mailto:${PROFILE.email}`}
               className="about-cta-btn about-cta-btn--ghost"
@@ -218,12 +212,9 @@ export function AboutView({
               LinkedIn
             </a>
 
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                onNavigate?.("resume");
-              }}
+            <button
+              type="button"
+              onClick={() => onNavigate?.("resume")}
               className="about-social-btn about-social-btn--cv"
             >
               <svg
@@ -242,7 +233,7 @@ export function AboutView({
                 <polyline points="10 9 9 9 8 9" />
               </svg>
               CV
-            </a>
+            </button>
           </div>
 
           <div className="about-counters">
@@ -266,19 +257,42 @@ export function AboutView({
           {TABS.map((tab) => (
             <button
               key={tab}
+              id={`about-tab-${tab.toLowerCase()}`}
               role="tab"
               aria-selected={activeTab === tab}
+              aria-controls="about-tab-panel"
+              tabIndex={activeTab === tab ? 0 : -1}
               className={`about-tab${activeTab === tab ? " about-tab--active" : ""}`}
               onClick={() => setActiveTab(tab)}
+              onKeyDown={(e) => {
+                if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+                  e.preventDefault();
+                  const currentIndex = TABS.indexOf(tab);
+                  const nextIndex =
+                    e.key === "ArrowRight"
+                      ? (currentIndex + 1) % TABS.length
+                      : (currentIndex - 1 + TABS.length) % TABS.length;
+
+                  setActiveTab(TABS[nextIndex]);
+
+                  const tabs =
+                    e.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>(
+                      '[role="tab"]',
+                    );
+
+                  tabs?.[nextIndex]?.focus();
+                }
+              }}
             >
               {tab}
             </button>
           ))}
         </div>
         <div
+          id="about-tab-panel"
           className="about-tab-content"
           role="tabpanel"
-          aria-label={activeTab}
+          aria-labelledby={`about-tab-${activeTab.toLowerCase()}`}
         >
           {activeTab === "Bio" && <BioTab />}
           {activeTab === "Hobbies" && <HobbiesTab />}

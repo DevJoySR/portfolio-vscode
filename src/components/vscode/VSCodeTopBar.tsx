@@ -1,6 +1,3 @@
-// src/components/VSCodeTopBar.tsx
-"use client";
-
 import Image from "next/image";
 
 const MENU_ITEMS = [
@@ -30,22 +27,13 @@ export function VSCodeTopBar() {
           />
         </div>
 
-        <nav
-          className="vsc-topbar__menu"
-          role="menubar"
-          aria-label="Menu principal"
-        >
+        <div className="vsc-topbar__menu" aria-hidden="true">
           {MENU_ITEMS.map((item) => (
-            <button
-              key={item}
-              role="menuitem"
-              className="vsc-topbar__menu-item"
-              aria-haspopup="true"
-            >
+            <span key={item} className="vsc-topbar__menu-item">
               {item}
-            </button>
+            </span>
           ))}
-        </nav>
+        </div>
       </div>
 
       {/* ── Centre : titre ── */}
@@ -55,7 +43,7 @@ export function VSCodeTopBar() {
 
       {/* ── Droite : contrôles fenêtre ── */}
       <div className="vsc-topbar__right" aria-label="Contrôles de fenêtre">
-        <button className="vsc-winbtn" aria-label="Réduire">
+        <span className="vsc-winbtn" aria-hidden="true">
           <svg
             width="11"
             height="11"
@@ -65,9 +53,9 @@ export function VSCodeTopBar() {
           >
             <rect y="5" width="11" height="1" />
           </svg>
-        </button>
+        </span>
 
-        <button className="vsc-winbtn" aria-label="Agrandir">
+        <span className="vsc-winbtn" aria-hidden="true">
           <svg
             width="11"
             height="11"
@@ -79,9 +67,9 @@ export function VSCodeTopBar() {
           >
             <rect x="0.5" y="0.5" width="10" height="10" />
           </svg>
-        </button>
+        </span>
 
-        <button className="vsc-winbtn vsc-winbtn--close" aria-label="Fermer">
+        <span className="vsc-winbtn vsc-winbtn--close" aria-hidden="true">
           <svg
             width="11"
             height="11"
@@ -91,7 +79,7 @@ export function VSCodeTopBar() {
           >
             <path d="M1.3 0L5.5 4.2 9.7 0 11 1.3 6.8 5.5 11 9.7 9.7 11 5.5 6.8 1.3 11 0 9.7 4.2 5.5 0 1.3 1.3 0z" />
           </svg>
-        </button>
+        </span>
       </div>
     </header>
   );

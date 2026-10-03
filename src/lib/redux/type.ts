@@ -10,11 +10,9 @@ export type FileLanguage =
   | 'markdown';
 
 export interface FileTab {
-  id: string;           // identifiant unique = nom du fichier
-  label: string;        // nom affiché dans l'onglet
+  id: string;
+  label: string;
   language: FileLanguage;
-  isDirty: boolean;     // point orange si modifications non sauvées
-  isPreview: boolean;   // italique si preview (single-click)
 }
 
 export interface ExplorerNode {

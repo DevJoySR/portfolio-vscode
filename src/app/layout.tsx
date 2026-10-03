@@ -5,6 +5,9 @@ import { ReduxProvider } from "@/lib/redux/ReduxProvider";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://adriensudja.fr"),
+  alternates: {
+    canonical: "/",
+  },
   title: "Adrien Sudja — Développeur Full-Stack & Créatif | Portfolio",
   icons: {
     icon: "/favicon.svg",

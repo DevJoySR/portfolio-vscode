@@ -100,11 +100,7 @@ export function VSCodeActivityBar() {
 
       {/* Boutons bas — non interactifs pour l'instant */}
       <div className="vsc-actbar__bottom">
-        <button
-          className="vsc-actbar__btn"
-          title="Comptes"
-          aria-label="Comptes"
-        >
+        <button className="vsc-actbar__btn" title="Comptes" aria-hidden="true">
           <svg
             width="24"
             height="24"
@@ -121,7 +117,7 @@ export function VSCodeActivityBar() {
         <button
           className="vsc-actbar__btn"
           title="Paramètres"
-          aria-label="Paramètres"
+          aria-hidden="true"
         >
           <svg
             width="24"

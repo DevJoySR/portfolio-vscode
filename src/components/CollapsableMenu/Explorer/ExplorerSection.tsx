@@ -14,6 +14,32 @@ interface Props {
   depth: number;
 }
 
+function moveTreeFocus(
+  currentElement: HTMLElement,
+  direction: "previous" | "next",
+) {
+  const tree = currentElement.closest('[role="tree"]');
+
+  if (!tree) return;
+
+  const items = Array.from(
+    tree.querySelectorAll<HTMLElement>(
+      '[role="treeitem"]:not([aria-disabled="true"])',
+    ),
+  ).filter((item) => item.offsetParent !== null);
+
+  const currentIndex = items.indexOf(currentElement);
+
+  if (currentIndex === -1) return;
+
+  const nextIndex =
+    direction === "next"
+      ? (currentIndex + 1) % items.length
+      : (currentIndex - 1 + items.length) % items.length;
+
+  items[nextIndex]?.focus();
+}
+
 export function ExplorerSection({ node, depth }: Props) {
   const dispatch = useAppDispatch();
   const { selectedFileId } = useAppSelector((s) => s.explorer);
@@ -29,6 +55,7 @@ export function ExplorerSection({ node, depth }: Props) {
           role="treeitem"
           aria-expanded={node.isOpen}
           aria-selected={isSelected}
+          aria-disabled={node.isSystem || undefined}
           className={`vsc-tree-row${node.isSystem ? " vsc-tree-row--system" : ""}${isSelected ? " vsc-tree-row--selected" : ""}`}
           style={{ paddingLeft: indent + 4 }}
           onClick={() => {
@@ -36,10 +63,65 @@ export function ExplorerSection({ node, depth }: Props) {
             dispatch(toggleFolder(node.id));
             dispatch(selectFile(node.id));
           }}
-          tabIndex={node.isSystem ? -1 : 0}
+          tabIndex={node.isSystem ? -1 : isSelected ? 0 : -1}
           onKeyDown={(e) => {
+            if (e.key === "ArrowDown") {
+              e.preventDefault();
+              moveTreeFocus(e.currentTarget, "next");
+              return;
+            }
+
+            if (e.key === "ArrowUp") {
+              e.preventDefault();
+              moveTreeFocus(e.currentTarget, "previous");
+              return;
+            }
+
+            if (e.key === "ArrowRight" && !node.isOpen) {
+              e.preventDefault();
+
+              if (!node.isSystem) {
+                dispatch(toggleFolder(node.id));
+                dispatch(selectFile(node.id));
+              }
+
+              return;
+            }
+
+            if (e.key === "ArrowRight" && node.isOpen) {
+              e.preventDefault();
+
+              const currentItem = e.currentTarget;
+              const group = currentItem.nextElementSibling;
+
+              if (group?.getAttribute("role") === "group") {
+                const firstChild =
+                  group.querySelector<HTMLElement>('[role="treeitem"]');
+
+                firstChild?.focus();
+              }
+
+              return;
+            }
+
+            if (e.key === "ArrowLeft" && node.isOpen) {
+              e.preventDefault();
+
+              if (!node.isSystem) {
+                dispatch(toggleFolder(node.id));
+                dispatch(selectFile(node.id));
+              }
+
+              return;
+            }
+
             if (e.key === "Enter" || e.key === " ") {
-              if (!node.isSystem) dispatch(toggleFolder(node.id));
+              e.preventDefault();
+
+              if (!node.isSystem) {
+                dispatch(toggleFolder(node.id));
+                dispatch(selectFile(node.id));
+              }
             }
           }}
         >
@@ -71,6 +153,7 @@ export function ExplorerSection({ node, depth }: Props) {
     <div
       role="treeitem"
       aria-selected={isSelected}
+      aria-disabled={node.isSystem || undefined}
       className={`vsc-tree-row vsc-tree-row--file${node.isSystem ? " vsc-tree-row--system" : ""}${isSelected ? " vsc-tree-row--selected" : ""}`}
       style={{ paddingLeft: indent + 20 }}
       onClick={() => {
@@ -79,9 +162,23 @@ export function ExplorerSection({ node, depth }: Props) {
           openFile({ id: node.id, label: node.label, language: node.language }),
         );
       }}
-      tabIndex={node.isSystem ? -1 : 0}
+      tabIndex={node.isSystem ? -1 : isSelected ? 0 : -1}
       onKeyDown={(e) => {
-        if (e.key === "Enter") {
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          moveTreeFocus(e.currentTarget, "next");
+          return;
+        }
+
+        if (e.key === "ArrowUp") {
+          e.preventDefault();
+          moveTreeFocus(e.currentTarget, "previous");
+          return;
+        }
+
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+
           if (!node.isSystem && node.language) {
             dispatch(
               openFile({

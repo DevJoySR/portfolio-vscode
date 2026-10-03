@@ -109,8 +109,6 @@ const initialState: ExplorerState = {
       id: 'about_me',
       label: 'a_propos.ts',
       language: 'typescript',
-      isDirty: false,
-      isPreview: false,
     },
   ],
   activeTabId: 'about_me',
@@ -135,8 +133,6 @@ const explorerSlice = createSlice({
           id,
           label,
           language,
-          isDirty: false,
-          isPreview: false,
         });
       }
 
