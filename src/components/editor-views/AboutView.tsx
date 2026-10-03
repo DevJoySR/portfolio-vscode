@@ -11,7 +11,7 @@ const PROFILE = {
   github: "https://github.com/DevJoySR",
   linkedin: "https://www.linkedin.com/in/adrien-sudja-247824329/",
   email: "adriensudja.pro@outlook.fr",
-  bio: "Développeur web en formation, je monte en compétences sur le frontend (React, Next.js, TypeScript) et le backend (PHP, Node.js, Java) à travers des bons projets. Curieux et autonome, j'aime apprendre et je cherche une alternance chez Epitech Rennes en 2026 pour monter en compétences !",
+  bio: "Développeur en alternance chez Synetics, je monte en compétences sur le frontend (React, Next.js, TypeScript) et le backend (Python, Flask, PHP, Node.js, Java) à travers des projets professionnels et personnels. Curieux et autonome, j'aime apprendre, améliorer mes pratiques et construire des applications utiles et maintenables.",
 };
 
 const COUNTERS = [
@@ -78,14 +78,13 @@ function BioTab() {
   return (
     <div className="pf-tab-content">
       <p className="pf-tab-content__text">
-        Je m&apos;appelle Adrien, développeur passionné basé à Rennes.
-        Actuellement en BTS SIO option SLAM, je rejoindrai Epitech Rennes en
-        bachelor en alternance à la rentrée prochaine. J&apos;adore créer des
+        Je m&apos;appelle Adrien, développeur basé à Rennes. Actuellement en
+        Bachelor à Epitech Rennes, je suis développeur en alternance chez
+        Synetics. J&apos;y développe mes compétences à travers des projets
+        professionnels tout en poursuivant ma formation. J&apos;aime créer des
         interfaces intuitives et des backends solides. Curieux et autonome,
         j&apos;apprends constamment de nouvelles technologies pour proposer des
-        solutions modernes et performantes. En dehors du code, je
-        m&apos;intéresse à l&apos;UI/UX design, aux nouvelles technos et au
-        développement open source.
+        solutions modernes et performantes.
       </p>
       <div className="pf-info-grid">
         <div className="pf-info-item">
@@ -304,13 +303,13 @@ export function AboutView({
         <div className="about-parcours__card about-parcours__card--active">
           <div className="about-parcours__card-icon">💼</div>
           <div className="about-parcours__card-body">
-            <span className="about-parcours__card-status">En cours</span>
+            <span className="about-parcours__card-status">Depuis 2026</span>
             <h3 className="about-parcours__card-title">
-              Recherche d&apos;alternance
+              Développeur en alternance — Synetics
             </h3>
             <p className="about-parcours__card-desc">
-              Ouvert à des opportunités sur Rennes et sa région · Dev web /
-              fullstack
+              Développement d&apos;applications web et d&apos;outils métier ·
+              Rennes
             </p>
           </div>
         </div>
